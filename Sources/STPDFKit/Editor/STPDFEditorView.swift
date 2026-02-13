@@ -53,23 +53,37 @@ public struct STPDFEditorView: View {
     public var body: some View {
         NavigationView {
             VStack(spacing: 0) {
+                // Property inspector (shown above PDF when active)
+                if viewModel.annotationManager.isPropertyInspectorVisible {
+                    STPropertyInspector(annotationManager: viewModel.annotationManager)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                }
+
                 // PDF Viewer
                 STPDFViewerView(
                     viewModel: viewModel.viewerViewModel,
-                    configuration: configuration
+                    configuration: configuration,
+                    annotationManager: viewModel.viewMode == .annotations ? viewModel.annotationManager : nil
                 )
 
-                // Bottom bar
-                STBottomBar(
-                    viewModel: viewModel,
-                    bookmarkManager: bookmarkManager
-                )
+                // Annotation toolbar (replaces bottom bar in annotation mode)
+                if viewModel.isAnnotationToolbarVisible {
+                    STAnnotationToolbar(annotationManager: viewModel.annotationManager)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                } else {
+                    STBottomBar(
+                        viewModel: viewModel,
+                        bookmarkManager: bookmarkManager
+                    )
+                }
             }
+            .animation(.easeInOut(duration: 0.25), value: viewModel.isAnnotationToolbarVisible)
+            .animation(.easeInOut(duration: 0.25), value: viewModel.annotationManager.isPropertyInspectorVisible)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        viewModel.document.save()
+                        viewModel.serializer.save()
                         onDismiss?()
                     } label: {
                         Image(systemName: "xmark")
@@ -86,14 +100,22 @@ public struct STPDFEditorView: View {
 
                 ToolbarItem(placement: .topBarTrailing) {
                     HStack(spacing: 16) {
-                        // Annotation toggle (placeholder for Phase 2)
-                        // Button { } label: { Image(systemName: "pencil.tip") }
+                        // Annotation toggle
+                        Button {
+                            viewModel.toggleAnnotationMode()
+                        } label: {
+                            Image(systemName: "pencil.tip.crop.circle")
+                                .font(.system(size: 18))
+                                .foregroundColor(viewModel.viewMode == .annotations ? .accentColor : .primary)
+                        }
 
-                        STMoreMenu(
-                            viewModel: viewModel,
-                            bookmarkManager: bookmarkManager,
-                            configuration: configuration
-                        )
+                        if !viewModel.isAnnotationToolbarVisible {
+                            STMoreMenu(
+                                viewModel: viewModel,
+                                bookmarkManager: bookmarkManager,
+                                configuration: configuration
+                            )
+                        }
                     }
                 }
             }
@@ -107,7 +129,6 @@ public struct STPDFEditorView: View {
                 STSearchView(
                     document: viewModel.document.pdfDocument,
                     onResultSelected: { selection in
-                        // Navigate to selected search result
                         if let page = selection.pages.first {
                             let index = viewModel.document.pdfDocument.index(for: page)
                             viewModel.viewerViewModel.goToPage(index)
@@ -127,6 +148,11 @@ public struct STPDFEditorView: View {
             }
             .sheet(isPresented: $viewModel.viewerViewModel.isSettingsVisible) {
                 STSettingsView(isPresented: $viewModel.viewerViewModel.isSettingsVisible)
+            }
+            .onChange(of: viewModel.annotationManager.activeTool) { newTool in
+                if newTool == nil && viewModel.viewMode == .annotations {
+                    // Tool deactivated but still in annotation mode — keep toolbar
+                }
             }
         }
         .navigationViewStyle(.stack)
