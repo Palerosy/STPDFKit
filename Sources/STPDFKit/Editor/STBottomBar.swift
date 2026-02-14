@@ -12,12 +12,10 @@ struct STBottomBar: View {
             HStack {
                 Spacer()
 
-                // Pages
+                // Pages → open page editor
                 if viewModel.configuration.showThumbnails {
                     bottomButton(icon: "rectangle.grid.2x2", label: STStrings.pages) {
-                        withAnimation(.easeInOut(duration: 0.25)) {
-                            viewModel.isPageStripVisible.toggle()
-                        }
+                        viewModel.viewMode = .documentEditor
                     }
                 }
 
