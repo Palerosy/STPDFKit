@@ -1,5 +1,6 @@
 import SwiftUI
 import PDFKit
+import Combine
 
 /// View mode for the editor
 enum STViewMode {
@@ -20,6 +21,10 @@ final class STPDFEditorViewModel: ObservableObject {
 
     @Published var viewMode: STViewMode = .viewer
     @Published var isAnnotationToolbarVisible = false
+    @Published var activeSheet: STSheetType?
+    @Published var isPageStripVisible = true
+
+    private var cancellables = Set<AnyCancellable>()
 
     init(document: STPDFDocument, configuration: STPDFConfiguration, openInPageEditor: Bool = false) {
         self.document = document
@@ -31,6 +36,11 @@ final class STPDFEditorViewModel: ObservableObject {
         if openInPageEditor {
             viewMode = .documentEditor
         }
+
+        // Forward annotation manager changes to trigger SwiftUI view updates
+        annotationManager.objectWillChange
+            .sink { [weak self] _ in self?.objectWillChange.send() }
+            .store(in: &cancellables)
     }
 
     /// Toggle annotation mode
@@ -43,6 +53,26 @@ final class STPDFEditorViewModel: ObservableObject {
             viewMode = .annotations
             isAnnotationToolbarVisible = true
             serializer.startAutoSave()
+        }
+    }
+
+    /// Enter annotation mode and activate a specific tool
+    func activateAnnotationTool(_ tool: STAnnotationType) {
+        if viewMode != .annotations {
+            viewMode = .annotations
+            isAnnotationToolbarVisible = true
+            serializer.startAutoSave()
+        }
+        annotationManager.setTool(tool)
+    }
+
+    /// Highlight a search selection on the PDFView, then clear after delay
+    func highlightSearchResult(_ selection: PDFSelection) {
+        guard let pdfView = annotationManager.pdfView else { return }
+        selection.color = .yellow
+        pdfView.highlightedSelections = [selection]
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            pdfView.highlightedSelections = nil
         }
     }
 }

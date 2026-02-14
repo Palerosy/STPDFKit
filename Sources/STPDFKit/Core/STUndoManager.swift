@@ -8,6 +8,9 @@ final class STUndoManager: ObservableObject {
     enum Action {
         case add(annotation: PDFAnnotation, page: PDFPage)
         case remove(annotation: PDFAnnotation, page: PDFPage)
+        case move(annotation: PDFAnnotation, page: PDFPage, oldBounds: CGRect)
+        case replacePage(document: PDFDocument, pageIndex: Int, previousPage: PDFPage)
+        case batch([Action])
     }
     
     @Published private(set) var canUndo = false
@@ -53,15 +56,34 @@ final class STUndoManager: ObservableObject {
             return .remove(annotation: annotation, page: page)
         case .remove(let annotation, let page):
             return .add(annotation: annotation, page: page)
+        case .move(let annotation, let page, _):
+            let currentBounds = annotation.bounds
+            return .move(annotation: annotation, page: page, oldBounds: currentBounds)
+        case .replacePage(let document, let pageIndex, _):
+            if let currentPage = document.page(at: pageIndex) {
+                return .replacePage(document: document, pageIndex: pageIndex, previousPage: currentPage)
+            }
+            return action
+        case .batch(let actions):
+            return .batch(actions.reversed().map { reverseAction($0) })
         }
     }
-    
+
     private func apply(_ action: Action) {
         switch action {
         case .add(let annotation, let page):
             page.addAnnotation(annotation)
         case .remove(let annotation, let page):
             page.removeAnnotation(annotation)
+        case .move(let annotation, _, let oldBounds):
+            annotation.bounds = oldBounds
+        case .replacePage(let document, let pageIndex, let previousPage):
+            document.removePage(at: pageIndex)
+            document.insert(previousPage, at: pageIndex)
+        case .batch(let actions):
+            for action in actions {
+                apply(action)
+            }
         }
     }
     

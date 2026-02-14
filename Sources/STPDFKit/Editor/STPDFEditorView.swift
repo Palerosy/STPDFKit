@@ -39,7 +39,7 @@ public struct STPDFEditorView: View {
         let doc = STPDFDocument(url: url, title: title) ?? STPDFDocument(
             document: PDFDocument(),
             url: url,
-            title: title ?? "Untitled"
+            title: title ?? STStrings.untitled
         )
 
         _viewModel = StateObject(wrappedValue: STPDFEditorViewModel(
@@ -52,33 +52,45 @@ public struct STPDFEditorView: View {
 
     public var body: some View {
         NavigationView {
-            VStack(spacing: 0) {
-                // Property inspector (shown above PDF when active)
-                if viewModel.annotationManager.isPropertyInspectorVisible {
-                    STPropertyInspector(annotationManager: viewModel.annotationManager)
-                        .transition(.move(edge: .top).combined(with: .opacity))
+            ZStack {
+                VStack(spacing: 0) {
+                    // PDF Viewer
+                    STPDFViewerView(
+                        viewModel: viewModel.viewerViewModel,
+                        configuration: configuration,
+                        annotationManager: viewModel.annotationManager,
+                        isAnnotationModeActive: viewModel.isAnnotationToolbarVisible
+                    )
+
+                    // Bottom bar (hidden during annotation mode)
+                    if !viewModel.isAnnotationToolbarVisible {
+                        STBottomBar(viewModel: viewModel)
+                    }
                 }
 
-                // PDF Viewer
-                STPDFViewerView(
-                    viewModel: viewModel.viewerViewModel,
-                    configuration: configuration,
-                    annotationManager: viewModel.viewMode == .annotations ? viewModel.annotationManager : nil
-                )
-
-                // Annotation toolbar (replaces bottom bar in annotation mode)
+                // Page thumbnail strip — floating overlay at bottom (edit mode only)
                 if viewModel.isAnnotationToolbarVisible {
-                    STAnnotationToolbar(annotationManager: viewModel.annotationManager)
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
-                } else {
-                    STBottomBar(
-                        viewModel: viewModel,
-                        bookmarkManager: bookmarkManager
+                    VStack {
+                        Spacer()
+                        STPageThumbnailStrip(
+                            viewModel: viewModel.viewerViewModel,
+                            onDismiss: { }
+                        )
+                        .padding(.bottom, 16)
+                    }
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                }
+
+                // Floating annotation toolbar overlay
+                if viewModel.isAnnotationToolbarVisible {
+                    STFloatingToolbar(
+                        annotationManager: viewModel.annotationManager,
+                        onDone: { viewModel.toggleAnnotationMode() }
                     )
+                    .transition(.scale(scale: 0.85).combined(with: .opacity))
                 }
             }
             .animation(.easeInOut(duration: 0.25), value: viewModel.isAnnotationToolbarVisible)
-            .animation(.easeInOut(duration: 0.25), value: viewModel.annotationManager.isPropertyInspectorVisible)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -119,39 +131,33 @@ public struct STPDFEditorView: View {
                     }
                 }
             }
-            .sheet(isPresented: $viewModel.viewerViewModel.isThumbnailGridVisible) {
-                STThumbnailGridView(viewModel: viewModel.viewerViewModel) { index in
-                    viewModel.viewerViewModel.goToPage(index)
-                    viewModel.viewerViewModel.isThumbnailGridVisible = false
-                }
-            }
-            .sheet(isPresented: $viewModel.viewerViewModel.isSearchVisible) {
-                STSearchView(
-                    document: viewModel.document.pdfDocument,
-                    onResultSelected: { selection in
-                        if let page = selection.pages.first {
-                            let index = viewModel.document.pdfDocument.index(for: page)
+            .sheet(item: $viewModel.activeSheet) { sheet in
+                switch sheet {
+                case .thumbnails:
+                    STThumbnailGridView(viewModel: viewModel.viewerViewModel)
+                case .search:
+                    STSearchView(
+                        document: viewModel.document.pdfDocument,
+                        onResultSelected: { selection in
+                            if let page = selection.pages.first {
+                                let index = viewModel.document.pdfDocument.index(for: page)
+                                viewModel.viewerViewModel.goToPage(index)
+                            }
+                            // Highlight found text in yellow, then clear after 1.5s
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                                viewModel.highlightSearchResult(selection)
+                            }
+                        }
+                    )
+                case .outline:
+                    STOutlineView(
+                        document: viewModel.document.pdfDocument,
+                        onPageSelected: { index in
                             viewModel.viewerViewModel.goToPage(index)
                         }
-                    },
-                    isPresented: $viewModel.viewerViewModel.isSearchVisible
-                )
-            }
-            .sheet(isPresented: $viewModel.viewerViewModel.isOutlineVisible) {
-                STOutlineView(
-                    document: viewModel.document.pdfDocument,
-                    onPageSelected: { index in
-                        viewModel.viewerViewModel.goToPage(index)
-                    },
-                    isPresented: $viewModel.viewerViewModel.isOutlineVisible
-                )
-            }
-            .sheet(isPresented: $viewModel.viewerViewModel.isSettingsVisible) {
-                STSettingsView(isPresented: $viewModel.viewerViewModel.isSettingsVisible)
-            }
-            .onChange(of: viewModel.annotationManager.activeTool) { newTool in
-                if newTool == nil && viewModel.viewMode == .annotations {
-                    // Tool deactivated but still in annotation mode — keep toolbar
+                    )
+                case .settings:
+                    STSettingsView()
                 }
             }
         }

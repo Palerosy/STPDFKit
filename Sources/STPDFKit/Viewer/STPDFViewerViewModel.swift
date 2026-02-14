@@ -1,6 +1,18 @@
 import SwiftUI
 import PDFKit
 
+/// Which sheet is currently presented — using a single enum prevents
+/// the SwiftUI bug where multiple `.sheet(isPresented:)` modifiers
+/// cause sheets to reopen after dismissal.
+enum STSheetType: String, Identifiable {
+    case thumbnails
+    case search
+    case outline
+    case settings
+
+    var id: String { rawValue }
+}
+
 /// ViewModel for the PDF viewer
 @MainActor
 final class STPDFViewerViewModel: ObservableObject {
@@ -8,11 +20,7 @@ final class STPDFViewerViewModel: ObservableObject {
     let document: STPDFDocument
 
     @Published var currentPageIndex: Int = 0
-    @Published var isThumbnailGridVisible = false
-    @Published var isSearchVisible = false
-    @Published var isOutlineVisible = false
     @Published var isBookmarkListVisible = false
-    @Published var isSettingsVisible = false
 
     var totalPages: Int {
         document.pageCount

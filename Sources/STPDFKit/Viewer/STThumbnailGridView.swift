@@ -5,59 +5,86 @@ import PDFKit
 struct STThumbnailGridView: View {
 
     @ObservedObject var viewModel: STPDFViewerViewModel
-    let onPageSelected: (Int) -> Void
+    @Environment(\.dismiss) private var dismiss
 
-    private let columns = [GridItem(.adaptive(minimum: 100), spacing: 16)]
+    private let columns = [GridItem(.adaptive(minimum: 120), spacing: 20)]
 
     var body: some View {
         NavigationView {
-            ScrollView {
-                LazyVGrid(columns: columns, spacing: 16) {
-                    ForEach(0..<viewModel.totalPages, id: \.self) { index in
-                        thumbnailCell(for: index)
-                            .onTapGesture {
-                                onPageSelected(index)
-                            }
+            ScrollViewReader { proxy in
+                ScrollView {
+                    LazyVGrid(columns: columns, spacing: 20) {
+                        ForEach(0..<viewModel.totalPages, id: \.self) { index in
+                            thumbnailCell(for: index)
+                                .id(index)
+                                .onTapGesture {
+                                    viewModel.goToPage(index)
+                                    dismiss()
+                                }
+                        }
+                    }
+                    .padding(20)
+                }
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        withAnimation {
+                            proxy.scrollTo(viewModel.currentPageIndex, anchor: .center)
+                        }
                     }
                 }
-                .padding()
             }
-            .navigationTitle("Pages")
+            .navigationTitle(STStrings.pages)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") {
-                        viewModel.isThumbnailGridVisible = false
+                    Button(STStrings.done) {
+                        dismiss()
                     }
+                    .fontWeight(.semibold)
                 }
             }
+            .background(Color(.systemGroupedBackground))
         }
     }
 
     @ViewBuilder
     private func thumbnailCell(for index: Int) -> some View {
-        VStack(spacing: 6) {
+        let isSelected = viewModel.currentPageIndex == index
+
+        VStack(spacing: 8) {
             if let page = viewModel.document.page(at: index) {
                 let stPage = STPDFPage(id: index, page: page)
-                Image(uiImage: stPage.thumbnail(maxSize: 150))
+                Image(uiImage: stPage.thumbnail(maxSize: 200))
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(maxHeight: 160)
+                    .frame(maxHeight: 200)
                     .background(Color.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 4))
-                    .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
                     .overlay(
-                        RoundedRectangle(cornerRadius: 4)
+                        RoundedRectangle(cornerRadius: 8)
                             .stroke(
-                                viewModel.currentPageIndex == index ? Color.accentColor : Color.clear,
-                                lineWidth: 2
+                                isSelected ? Color.accentColor : Color.clear,
+                                lineWidth: 3
                             )
+                    )
+                    .shadow(color: .black.opacity(0.12), radius: 4, x: 0, y: 2)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(isSelected ? Color.accentColor.opacity(0.08) : Color.clear)
+                            .padding(-4)
                     )
             }
 
             Text("\(index + 1)")
                 .font(.caption)
-                .foregroundColor(viewModel.currentPageIndex == index ? .accentColor : .secondary)
+                .fontWeight(isSelected ? .semibold : .regular)
+                .foregroundColor(isSelected ? .white : .secondary)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 3)
+                .background(
+                    Capsule()
+                        .fill(isSelected ? Color.accentColor : Color.clear)
+                )
         }
     }
 }

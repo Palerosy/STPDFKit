@@ -37,7 +37,27 @@ public struct STAnnotationStyle: Equatable, Sendable {
             return STAnnotationStyle(color: .systemRed, lineWidth: 0, opacity: 1.0)
         case .textStrikeOut:
             return STAnnotationStyle(color: .systemRed, lineWidth: 0, opacity: 1.0)
-        default:
+        case .rectangle:
+            return STAnnotationStyle(color: .systemBlue, lineWidth: 2.0, opacity: 1.0)
+        case .circle:
+            return STAnnotationStyle(color: .systemBlue, lineWidth: 2.0, opacity: 1.0)
+        case .line:
+            return STAnnotationStyle(color: .systemBlue, lineWidth: 2.0, opacity: 1.0)
+        case .arrow:
+            return STAnnotationStyle(color: .systemBlue, lineWidth: 2.0, opacity: 1.0)
+        case .signature:
+            return STAnnotationStyle(color: .black, lineWidth: 2.0, opacity: 1.0)
+        case .stamp:
+            return STAnnotationStyle(color: .systemRed, lineWidth: 0, opacity: 1.0)
+        case .photo:
+            return STAnnotationStyle()
+        case .note:
+            return STAnnotationStyle(color: .systemYellow, lineWidth: 0, opacity: 1.0)
+        case .textEdit:
+            return STAnnotationStyle(color: .black, lineWidth: 0, opacity: 1.0, fontSize: 16.0)
+        case .textRemove:
+            return STAnnotationStyle()
+        case .eraser:
             return STAnnotationStyle()
         }
     }

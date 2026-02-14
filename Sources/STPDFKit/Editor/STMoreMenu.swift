@@ -1,7 +1,7 @@
 import SwiftUI
 import PDFKit
 
-/// More options menu (…) button with contextual actions
+/// More options menu (...) button with contextual actions
 struct STMoreMenu: View {
 
     @ObservedObject var viewModel: STPDFEditorViewModel
@@ -13,9 +13,9 @@ struct STMoreMenu: View {
             // View section
             if configuration.showOutline {
                 Button {
-                    viewModel.viewerViewModel.isOutlineVisible = true
+                    viewModel.activeSheet = .outline
                 } label: {
-                    Label("Outline", systemImage: "list.bullet.indent")
+                    Label(STStrings.outline, systemImage: "list.bullet.indent")
                 }
             }
 
@@ -23,7 +23,7 @@ struct STMoreMenu: View {
                 Button {
                     viewModel.viewMode = .documentEditor
                 } label: {
-                    Label("Edit Pages", systemImage: "doc.badge.gearshape")
+                    Label(STStrings.editPages, systemImage: "doc.badge.gearshape")
                 }
             }
 
@@ -34,7 +34,7 @@ struct STMoreMenu: View {
                 Button {
                     shareDocument()
                 } label: {
-                    Label("Share", systemImage: "square.and.arrow.up")
+                    Label(STStrings.share, systemImage: "square.and.arrow.up")
                 }
             }
 
@@ -42,7 +42,7 @@ struct STMoreMenu: View {
                 Button {
                     printDocument()
                 } label: {
-                    Label("Print", systemImage: "printer")
+                    Label(STStrings.print, systemImage: "printer")
                 }
             }
 
@@ -50,7 +50,7 @@ struct STMoreMenu: View {
                 Button {
                     saveAsText()
                 } label: {
-                    Label("Save as Text", systemImage: "doc.text")
+                    Label(STStrings.saveAsText, systemImage: "doc.text")
                 }
             }
         } label: {

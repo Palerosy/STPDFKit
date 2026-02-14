@@ -3,6 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "STPDFKit",
+    defaultLocalization: "en",
     platforms: [.iOS(.v16)],
     products: [
         .library(name: "STPDFKit", targets: ["STPDFKit"]),
@@ -10,7 +11,8 @@ let package = Package(
     targets: [
         .target(
             name: "STPDFKit",
-            dependencies: []
+            dependencies: [],
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "STPDFKitTests",

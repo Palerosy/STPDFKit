@@ -3,27 +3,27 @@ import SwiftUI
 /// Viewer settings panel
 struct STSettingsView: View {
 
-    @Binding var isPresented: Bool
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         NavigationView {
             List {
-                Section("Display") {
-                    Label("Scroll Direction", systemImage: "arrow.up.arrow.down")
-                    Label("Page Mode", systemImage: "doc.on.doc")
+                Section(STStrings.display) {
+                    Label(STStrings.scrollDirection, systemImage: "arrow.up.arrow.down")
+                    Label(STStrings.pageMode, systemImage: "doc.on.doc")
                 }
 
-                Section("View") {
-                    Label("Page Shadows", systemImage: "shadow")
-                    Label("Background Color", systemImage: "paintpalette")
+                Section(STStrings.view) {
+                    Label(STStrings.pageShadows, systemImage: "shadow")
+                    Label(STStrings.backgroundColor, systemImage: "paintpalette")
                 }
             }
-            .navigationTitle("Settings")
+            .navigationTitle(STStrings.settings)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") {
-                        isPresented = false
+                    Button(STStrings.done) {
+                        dismiss()
                     }
                 }
             }

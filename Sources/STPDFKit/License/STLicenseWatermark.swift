@@ -4,7 +4,7 @@ import SwiftUI
 struct STLicenseWatermark: View {
     var body: some View {
         GeometryReader { geometry in
-            let text = "STPDFKit — Unlicensed"
+            let text = STStrings.unlicensed
             ZStack {
                 ForEach(0..<3, id: \.self) { row in
                     ForEach(0..<2, id: \.self) { col in

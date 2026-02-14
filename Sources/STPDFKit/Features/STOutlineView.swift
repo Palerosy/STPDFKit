@@ -6,7 +6,7 @@ struct STOutlineView: View {
 
     let document: PDFDocument
     let onPageSelected: (Int) -> Void
-    @Binding var isPresented: Bool
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         NavigationView {
@@ -18,16 +18,16 @@ struct STOutlineView: View {
                                 if let dest = entry.outline.destination, let page = dest.page {
                                     let pageIndex = document.index(for: page)
                                     onPageSelected(pageIndex)
-                                    isPresented = false
+                                    dismiss()
                                 }
                             } label: {
                                 HStack {
-                                    Text(entry.outline.label ?? "Untitled")
+                                    Text(entry.outline.label ?? STStrings.untitled)
                                         .foregroundColor(.primary)
                                         .padding(.leading, CGFloat(entry.depth) * 16)
                                     Spacer()
                                     if let dest = entry.outline.destination, let page = dest.page {
-                                        Text("p. \(document.index(for: page) + 1)")
+                                        Text(STStrings.page(document.index(for: page) + 1))
                                             .font(.caption)
                                             .foregroundColor(.secondary)
                                     }
@@ -41,17 +41,17 @@ struct STOutlineView: View {
                         Image(systemName: "list.bullet.indent")
                             .font(.system(size: 40))
                             .foregroundColor(.secondary)
-                        Text("No outline available")
+                        Text(STStrings.noOutlineAvailable)
                             .foregroundColor(.secondary)
                     }
                 }
             }
-            .navigationTitle("Outline")
+            .navigationTitle(STStrings.outline)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") {
-                        isPresented = false
+                    Button(STStrings.done) {
+                        dismiss()
                     }
                 }
             }

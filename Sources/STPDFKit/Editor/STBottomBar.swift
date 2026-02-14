@@ -4,64 +4,60 @@ import SwiftUI
 struct STBottomBar: View {
 
     @ObservedObject var viewModel: STPDFEditorViewModel
-    @ObservedObject var bookmarkManager: STBookmarkManager
 
     var body: some View {
-        HStack {
-            Spacer()
+        VStack(spacing: 0) {
+            Divider()
 
-            // Thumbnails
-            if viewModel.configuration.showThumbnails {
-                bottomButton(icon: "rectangle.grid.2x2", label: "Pages") {
-                    viewModel.viewerViewModel.isThumbnailGridVisible = true
+            HStack {
+                Spacer()
+
+                // Pages
+                if viewModel.configuration.showThumbnails {
+                    bottomButton(icon: "rectangle.grid.2x2", label: STStrings.pages) {
+                        withAnimation(.easeInOut(duration: 0.25)) {
+                            viewModel.isPageStripVisible.toggle()
+                        }
+                    }
                 }
-            }
 
-            Spacer()
+                Spacer()
 
-            // Bookmarks
-            if viewModel.configuration.showBookmarks {
-                bottomButton(
-                    icon: bookmarkManager.isBookmarked(viewModel.viewerViewModel.currentPageIndex)
-                        ? "bookmark.fill" : "bookmark",
-                    label: "Bookmark"
-                ) {
-                    bookmarkManager.toggleBookmark(viewModel.viewerViewModel.currentPageIndex)
+                // Add Text
+                bottomButton(icon: "textformat", label: STStrings.addText) {
+                    viewModel.activateAnnotationTool(.freeText)
                 }
-            }
 
-            Spacer()
+                Spacer()
 
-            // Search
-            if viewModel.configuration.showSearch {
-                bottomButton(icon: "magnifyingglass", label: "Search") {
-                    viewModel.viewerViewModel.isSearchVisible = true
+                // Remove Text
+                bottomButton(icon: "text.badge.minus", label: STStrings.removeText) {
+                    viewModel.activateAnnotationTool(.textRemove)
                 }
-            }
 
-            Spacer()
+                Spacer()
 
-            // Settings
-            if viewModel.configuration.showSettings {
-                bottomButton(icon: "gearshape", label: "Settings") {
-                    viewModel.viewerViewModel.isSettingsVisible = true
+                // Search
+                if viewModel.configuration.showSearch {
+                    bottomButton(icon: "magnifyingglass", label: STStrings.search) {
+                        viewModel.activeSheet = .search
+                    }
                 }
-            }
 
-            Spacer()
+                Spacer()
+            }
+            .padding(.vertical, 10)
+            .background(.bar)
         }
-        .padding(.vertical, 8)
-        .background(Color(.systemBackground))
-        .overlay(Divider(), alignment: .top)
     }
 
     private func bottomButton(icon: String, label: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            VStack(spacing: 2) {
+            VStack(spacing: 4) {
                 Image(systemName: icon)
-                    .font(.system(size: 20))
+                    .font(.system(size: 22))
                 Text(label)
-                    .font(.system(size: 10))
+                    .font(.system(size: 11, weight: .medium))
             }
             .foregroundColor(.accentColor)
         }

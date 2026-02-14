@@ -1,0 +1,80 @@
+/* General */
+"stpdfkit.done" = "Готово";
+"stpdfkit.pages" = "Страницы";
+"stpdfkit.bookmark" = "Закладка";
+"stpdfkit.search" = "Поиск";
+"stpdfkit.settings" = "Настройки";
+"stpdfkit.outline" = "Оглавление";
+"stpdfkit.editPages" = "Редактировать страницы";
+"stpdfkit.share" = "Поделиться";
+"stpdfkit.print" = "Печать";
+"stpdfkit.saveAsText" = "Сохранить как текст";
+"stpdfkit.untitled" = "Без названия";
+
+/* Search */
+"stpdfkit.searchInDocument" = "Поиск в документе...";
+"stpdfkit.searching" = "Поиск...";
+"stpdfkit.noResultsFound" = "Результаты не найдены";
+
+/* Pages */
+"stpdfkit.page" = "Страница %d";
+"stpdfkit.noOutlineAvailable" = "Оглавление недоступно";
+
+/* Display Settings */
+"stpdfkit.display" = "Отображение";
+"stpdfkit.scrollDirection" = "Направление прокрутки";
+"stpdfkit.pageMode" = "Режим страницы";
+"stpdfkit.view" = "Вид";
+"stpdfkit.pageShadows" = "Тени страниц";
+"stpdfkit.backgroundColor" = "Цвет фона";
+
+/* Annotation Properties */
+"stpdfkit.color" = "Цвет";
+"stpdfkit.width" = "Ширина";
+"stpdfkit.fontSize" = "Размер шрифта";
+"stpdfkit.opacity" = "Непрозрачность";
+"stpdfkit.font" = "Шрифт";
+
+/* Annotation Tools */
+"stpdfkit.tool.pen" = "Перо";
+"stpdfkit.tool.highlighter" = "Маркер";
+"stpdfkit.tool.text" = "Текст";
+"stpdfkit.tool.highlight" = "Выделение";
+"stpdfkit.tool.underline" = "Подчёркивание";
+"stpdfkit.tool.strikethrough" = "Зачёркивание";
+"stpdfkit.tool.rectangle" = "Прямоугольник";
+"stpdfkit.tool.circle" = "Круг";
+"stpdfkit.tool.line" = "Линия";
+"stpdfkit.tool.arrow" = "Стрелка";
+"stpdfkit.tool.signature" = "Подпись";
+"stpdfkit.tool.stamp" = "Штамп";
+"stpdfkit.tool.note" = "Заметка";
+"stpdfkit.tool.eraser" = "Ластик";
+"stpdfkit.tool.textEdit" = "Редактировать текст";
+"stpdfkit.tapOnTextToEdit" = "Нажмите на текст для редактирования";
+"stpdfkit.selection.word" = "Слово";
+"stpdfkit.selection.line" = "Строка";
+
+/* Tool Groups */
+"stpdfkit.group.draw" = "Рисование";
+"stpdfkit.group.text" = "Текст";
+"stpdfkit.group.markup" = "Разметка";
+
+/* Text Input */
+"stpdfkit.enterText" = "Введите текст...";
+"stpdfkit.cancel" = "Отмена";
+"stpdfkit.add" = "Добавить";
+
+/* Markup */
+"stpdfkit.applyTool" = "Применить %@";
+
+/* Signature */
+"stpdfkit.signature.clear" = "Очистить";
+"stpdfkit.signature.drawNew" = "Нарисовать";
+"stpdfkit.signature.saved" = "Сохранённые подписи";
+
+/* Selection Menu */
+"stpdfkit.selection.paste" = "Вставить";
+
+/* License */
+"stpdfkit.unlicensed" = "STPDFKit — Unlicensed";

@@ -6,7 +6,7 @@ struct STSearchView: View {
 
     let document: PDFDocument
     let onResultSelected: (PDFSelection) -> Void
-    @Binding var isPresented: Bool
+    @Environment(\.dismiss) private var dismiss
 
     @State private var searchText = ""
     @State private var results: [PDFSelection] = []
@@ -19,7 +19,7 @@ struct STSearchView: View {
                 HStack {
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.secondary)
-                    TextField("Search in document...", text: $searchText)
+                    TextField(STStrings.searchInDocument, text: $searchText)
                         .textFieldStyle(.plain)
                         .autocorrectionDisabled()
                         .onSubmit { performSearch() }
@@ -43,23 +43,23 @@ struct STSearchView: View {
                 // Results
                 if isSearching {
                     Spacer()
-                    ProgressView("Searching...")
+                    ProgressView(STStrings.searching)
                     Spacer()
                 } else if results.isEmpty && !searchText.isEmpty {
                     Spacer()
-                    Text("No results found")
+                    Text(STStrings.noResultsFound)
                         .foregroundColor(.secondary)
                     Spacer()
                 } else {
                     List(Array(results.enumerated()), id: \.offset) { index, selection in
                         Button {
                             onResultSelected(selection)
-                            isPresented = false
+                            dismiss()
                         } label: {
                             VStack(alignment: .leading, spacing: 4) {
                                 if let page = selection.pages.first {
                                     let pageIndex = document.index(for: page)
-                                    Text("Page \(pageIndex + 1)")
+                                    Text(STStrings.page(pageIndex + 1))
                                         .font(.caption)
                                         .foregroundColor(.secondary)
                                 }
@@ -73,12 +73,12 @@ struct STSearchView: View {
                     .listStyle(.plain)
                 }
             }
-            .navigationTitle("Search")
+            .navigationTitle(STStrings.search)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") {
-                        isPresented = false
+                    Button(STStrings.done) {
+                        dismiss()
                     }
                 }
             }

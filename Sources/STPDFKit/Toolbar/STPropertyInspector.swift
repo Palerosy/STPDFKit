@@ -2,26 +2,34 @@ import SwiftUI
 
 /// Property inspector for adjusting annotation style (color, width, opacity)
 struct STPropertyInspector: View {
-    
+
     @ObservedObject var annotationManager: STAnnotationManager
-    
+
     private var showLineWidth: Bool {
+        // Selection mode: show for applicable annotation types
+        if annotationManager.selectedAnnotation != nil && annotationManager.activeTool == nil {
+            let type = annotationManager.selectedAnnotation?.type
+            return type == "Ink" || type == "Square" || type == "Circle" || type == "Line"
+        }
         guard let tool = annotationManager.activeTool else { return false }
-        return tool.isDrawingTool
+        return tool.hasLineWidth
     }
-    
+
     private var showFontSize: Bool {
-        annotationManager.activeTool == .freeText
+        if annotationManager.selectedAnnotation != nil && annotationManager.activeTool == nil {
+            return annotationManager.selectedAnnotation?.type == "FreeText"
+        }
+        return annotationManager.activeTool == .freeText
     }
-    
+
     var body: some View {
         VStack(spacing: 16) {
             // Color picker
             VStack(alignment: .leading, spacing: 8) {
-                Text("Color")
+                Text(STStrings.color)
                     .font(.caption.weight(.semibold))
                     .foregroundColor(.secondary)
-                
+
                 LazyVGrid(columns: Array(repeating: GridItem(.fixed(32), spacing: 8), count: 6), spacing: 8) {
                     ForEach(Array(STAnnotationStyle.presetColors.enumerated()), id: \.offset) { _, color in
                         Circle()
@@ -40,12 +48,12 @@ struct STPropertyInspector: View {
                     }
                 }
             }
-            
+
             // Line width (for drawing tools)
             if showLineWidth {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
-                        Text("Width")
+                        Text(STStrings.width)
                             .font(.caption.weight(.semibold))
                             .foregroundColor(.secondary)
                         Spacer()
@@ -53,7 +61,7 @@ struct STPropertyInspector: View {
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
-                    
+
                     Slider(
                         value: $annotationManager.activeStyle.lineWidth,
                         in: 1...20,
@@ -62,12 +70,12 @@ struct STPropertyInspector: View {
                     .tint(.accentColor)
                 }
             }
-            
+
             // Font size (for text tool)
             if showFontSize {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
-                        Text("Font Size")
+                        Text(STStrings.fontSize)
                             .font(.caption.weight(.semibold))
                             .foregroundColor(.secondary)
                         Spacer()
@@ -75,7 +83,7 @@ struct STPropertyInspector: View {
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
-                    
+
                     Slider(
                         value: $annotationManager.activeStyle.fontSize,
                         in: 8...72,
@@ -84,11 +92,11 @@ struct STPropertyInspector: View {
                     .tint(.accentColor)
                 }
             }
-            
+
             // Opacity
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
-                    Text("Opacity")
+                    Text(STStrings.opacity)
                         .font(.caption.weight(.semibold))
                         .foregroundColor(.secondary)
                     Spacer()
@@ -96,7 +104,7 @@ struct STPropertyInspector: View {
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
-                
+
                 Slider(
                     value: $annotationManager.activeStyle.opacity,
                     in: 0.1...1.0,
