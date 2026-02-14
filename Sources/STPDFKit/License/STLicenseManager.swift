@@ -11,7 +11,7 @@ public enum STLicensePlan: String, Codable {
 @MainActor
 public final class STLicenseManager: ObservableObject {
 
-    static let shared = STLicenseManager()
+    public static let shared = STLicenseManager()
 
     @Published public private(set) var isLicensed = false
     @Published public private(set) var plan: STLicensePlan?
@@ -22,7 +22,7 @@ public final class STLicenseManager: ObservableObject {
     private init() {}
 
     /// Activate the SDK with a license key
-    func activate(key: String) {
+    public func activate(key: String) {
         guard let result = STLicenseValidator.validate(key: key) else {
             printWarning("Invalid license key.")
             isLicensed = false

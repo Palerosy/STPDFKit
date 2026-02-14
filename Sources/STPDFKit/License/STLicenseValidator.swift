@@ -16,7 +16,7 @@ enum STLicenseValidator {
     // MARK: - Embedded Public Key (Base64)
     // The corresponding private key is kept securely by the SDK vendor.
     // Replace this with your actual Ed25519 public key.
-    private static let publicKeyBase64 = "REPLACE_WITH_ACTUAL_PUBLIC_KEY_BASE64"
+    private static let publicKeyBase64 = "auHve1GETXN5pkOU94Ks9BvcuDLrxF/6YaDSHdfI8Mc="
 
     /// Validate a license key string
     /// - Parameter key: Base64-encoded license key
