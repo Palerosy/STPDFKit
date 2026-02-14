@@ -120,5 +120,24 @@
 "stpdfkit.order.backward" = "Send Backward";
 "stpdfkit.order.back" = "Send to Back";
 
+/* Page Editor */
+"stpdfkit.page.newPage" = "New Page";
+"stpdfkit.page.remove" = "Remove";
+"stpdfkit.page.duplicate" = "Duplicate";
+"stpdfkit.page.rotate" = "Rotate";
+"stpdfkit.page.selectAll" = "Select All";
+"stpdfkit.page.deselectAll" = "Deselect All";
+"stpdfkit.page.cut" = "Cut";
+"stpdfkit.page.copy" = "Copy";
+"stpdfkit.page.paste" = "Paste";
+"stpdfkit.page.numberOfPages" = "Number of Pages";
+"stpdfkit.page.format" = "Page Format";
+"stpdfkit.page.color" = "Page Color";
+"stpdfkit.page.addAfter" = "Add After Page";
+"stpdfkit.page.beginning" = "Beginning";
+"stpdfkit.page.color.white" = "White";
+"stpdfkit.page.color.cream" = "Cream";
+"stpdfkit.page.color.gray" = "Gray";
+
 /* License */
 "stpdfkit.unlicensed" = "STPDFKit — Unlicensed";

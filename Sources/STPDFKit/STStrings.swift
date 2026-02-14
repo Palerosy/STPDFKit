@@ -128,6 +128,25 @@ enum STStrings {
     static var orderBackward: String { loc("stpdfkit.order.backward") }
     static var orderBack: String { loc("stpdfkit.order.back") }
 
+    // MARK: - Page Editor
+    static var pageNewPage: String { loc("stpdfkit.page.newPage") }
+    static var pageRemove: String { loc("stpdfkit.page.remove") }
+    static var pageDuplicate: String { loc("stpdfkit.page.duplicate") }
+    static var pageRotate: String { loc("stpdfkit.page.rotate") }
+    static var pageSelectAll: String { loc("stpdfkit.page.selectAll") }
+    static var pageDeselectAll: String { loc("stpdfkit.page.deselectAll") }
+    static var pageCut: String { loc("stpdfkit.page.cut") }
+    static var pageCopy: String { loc("stpdfkit.page.copy") }
+    static var pagePaste: String { loc("stpdfkit.page.paste") }
+    static var pageNumberOfPages: String { loc("stpdfkit.page.numberOfPages") }
+    static var pageFormat: String { loc("stpdfkit.page.format") }
+    static var pageColor: String { loc("stpdfkit.page.color") }
+    static var pageAddAfter: String { loc("stpdfkit.page.addAfter") }
+    static var pageBeginning: String { loc("stpdfkit.page.beginning") }
+    static var pageColorWhite: String { loc("stpdfkit.page.color.white") }
+    static var pageColorCream: String { loc("stpdfkit.page.color.cream") }
+    static var pageColorGray: String { loc("stpdfkit.page.color.gray") }
+
     // MARK: - License
     static var unlicensed: String { loc("stpdfkit.unlicensed") }
 

@@ -47,4 +47,12 @@ final class STPDFViewerViewModel: ObservableObject {
     func previousPage() {
         goToPage(currentPageIndex - 1)
     }
+
+    /// Refresh after page count changes (e.g. page editor operations)
+    func refreshPageCount() {
+        if currentPageIndex >= totalPages {
+            currentPageIndex = max(0, totalPages - 1)
+        }
+        objectWillChange.send()
+    }
 }

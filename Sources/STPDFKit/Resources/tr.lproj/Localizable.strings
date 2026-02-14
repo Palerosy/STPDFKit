@@ -122,5 +122,24 @@
 "stpdfkit.order.backward" = "Arkaya Gönder";
 "stpdfkit.order.back" = "En Arkaya Gönder";
 
+/* Page Editor */
+"stpdfkit.page.newPage" = "Yeni Sayfa";
+"stpdfkit.page.remove" = "Kaldır";
+"stpdfkit.page.duplicate" = "Çoğalt";
+"stpdfkit.page.rotate" = "Döndür";
+"stpdfkit.page.selectAll" = "Tümünü Seç";
+"stpdfkit.page.deselectAll" = "Seçimi Kaldır";
+"stpdfkit.page.cut" = "Kes";
+"stpdfkit.page.copy" = "Kopyala";
+"stpdfkit.page.paste" = "Yapıştır";
+"stpdfkit.page.numberOfPages" = "Sayfa Sayısı";
+"stpdfkit.page.format" = "Sayfa Formatı";
+"stpdfkit.page.color" = "Sayfa Rengi";
+"stpdfkit.page.addAfter" = "Sayfadan Sonra Ekle";
+"stpdfkit.page.beginning" = "Başlangıç";
+"stpdfkit.page.color.white" = "Beyaz";
+"stpdfkit.page.color.cream" = "Krem";
+"stpdfkit.page.color.gray" = "Gri";
+
 /* License */
 "stpdfkit.unlicensed" = "STPDFKit — Unlicensed";

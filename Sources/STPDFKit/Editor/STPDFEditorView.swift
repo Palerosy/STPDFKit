@@ -52,115 +52,135 @@ public struct STPDFEditorView: View {
 
     public var body: some View {
         NavigationView {
-            ZStack {
-                VStack(spacing: 0) {
-                    // PDF Viewer
-                    STPDFViewerView(
+            Group {
+                if viewModel.viewMode == .documentEditor {
+                    // Page Editor mode
+                    STPageEditorView(
+                        viewModel: viewModel.pageEditorViewModel,
+                        onDone: {
+                            viewModel.viewMode = .viewer
+                            viewModel.viewerViewModel.refreshPageCount()
+                        }
+                    )
+                } else {
+                    // Viewer / Annotation mode
+                    viewerContent
+                }
+            }
+            .animation(.easeInOut(duration: 0.25), value: viewModel.viewMode)
+        }
+        .navigationViewStyle(.stack)
+    }
+
+    @ViewBuilder
+    private var viewerContent: some View {
+        ZStack {
+            VStack(spacing: 0) {
+                // PDF Viewer
+                STPDFViewerView(
+                    viewModel: viewModel.viewerViewModel,
+                    configuration: configuration,
+                    annotationManager: viewModel.annotationManager,
+                    isAnnotationModeActive: viewModel.isAnnotationToolbarVisible
+                )
+
+                // Bottom bar (hidden during annotation mode)
+                if !viewModel.isAnnotationToolbarVisible {
+                    STBottomBar(viewModel: viewModel)
+                }
+            }
+
+            // Page thumbnail strip — floating overlay at bottom (edit mode only)
+            if viewModel.isAnnotationToolbarVisible {
+                VStack {
+                    Spacer()
+                    STPageThumbnailStrip(
                         viewModel: viewModel.viewerViewModel,
-                        configuration: configuration,
-                        annotationManager: viewModel.annotationManager,
-                        isAnnotationModeActive: viewModel.isAnnotationToolbarVisible
+                        onDismiss: { }
                     )
-
-                    // Bottom bar (hidden during annotation mode)
-                    if !viewModel.isAnnotationToolbarVisible {
-                        STBottomBar(viewModel: viewModel)
-                    }
+                    .padding(.bottom, 16)
                 }
+                .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
 
-                // Page thumbnail strip — floating overlay at bottom (edit mode only)
-                if viewModel.isAnnotationToolbarVisible {
-                    VStack {
-                        Spacer()
-                        STPageThumbnailStrip(
-                            viewModel: viewModel.viewerViewModel,
-                            onDismiss: { }
-                        )
-                        .padding(.bottom, 16)
-                    }
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
-                }
-
-                // Floating annotation toolbar overlay
-                if viewModel.isAnnotationToolbarVisible {
-                    STFloatingToolbar(
-                        annotationManager: viewModel.annotationManager,
-                        onDone: { viewModel.toggleAnnotationMode() }
-                    )
-                    .transition(.scale(scale: 0.85).combined(with: .opacity))
+            // Floating annotation toolbar overlay
+            if viewModel.isAnnotationToolbarVisible {
+                STFloatingToolbar(
+                    annotationManager: viewModel.annotationManager,
+                    onDone: { viewModel.toggleAnnotationMode() }
+                )
+                .transition(.scale(scale: 0.85).combined(with: .opacity))
+            }
+        }
+        .animation(.easeInOut(duration: 0.25), value: viewModel.isAnnotationToolbarVisible)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    viewModel.serializer.save()
+                    onDismiss?()
+                } label: {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundColor(.secondary)
                 }
             }
-            .animation(.easeInOut(duration: 0.25), value: viewModel.isAnnotationToolbarVisible)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
+
+            ToolbarItem(placement: .principal) {
+                Text(viewModel.document.title)
+                    .font(.headline)
+                    .lineLimit(1)
+            }
+
+            ToolbarItem(placement: .topBarTrailing) {
+                HStack(spacing: 16) {
+                    // Annotation toggle
                     Button {
-                        viewModel.serializer.save()
-                        onDismiss?()
+                        viewModel.toggleAnnotationMode()
                     } label: {
-                        Image(systemName: "xmark")
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(.secondary)
+                        Image(systemName: "pencil.tip.crop.circle")
+                            .font(.system(size: 18))
+                            .foregroundColor(viewModel.viewMode == .annotations ? .accentColor : .primary)
                     }
-                }
 
-                ToolbarItem(placement: .principal) {
-                    Text(viewModel.document.title)
-                        .font(.headline)
-                        .lineLimit(1)
-                }
-
-                ToolbarItem(placement: .topBarTrailing) {
-                    HStack(spacing: 16) {
-                        // Annotation toggle
-                        Button {
-                            viewModel.toggleAnnotationMode()
-                        } label: {
-                            Image(systemName: "pencil.tip.crop.circle")
-                                .font(.system(size: 18))
-                                .foregroundColor(viewModel.viewMode == .annotations ? .accentColor : .primary)
-                        }
-
-                        if !viewModel.isAnnotationToolbarVisible {
-                            STMoreMenu(
-                                viewModel: viewModel,
-                                bookmarkManager: bookmarkManager,
-                                configuration: configuration
-                            )
-                        }
+                    if !viewModel.isAnnotationToolbarVisible {
+                        STMoreMenu(
+                            viewModel: viewModel,
+                            bookmarkManager: bookmarkManager,
+                            configuration: configuration
+                        )
                     }
-                }
-            }
-            .sheet(item: $viewModel.activeSheet) { sheet in
-                switch sheet {
-                case .thumbnails:
-                    STThumbnailGridView(viewModel: viewModel.viewerViewModel)
-                case .search:
-                    STSearchView(
-                        document: viewModel.document.pdfDocument,
-                        onResultSelected: { selection in
-                            if let page = selection.pages.first {
-                                let index = viewModel.document.pdfDocument.index(for: page)
-                                viewModel.viewerViewModel.goToPage(index)
-                            }
-                            // Highlight found text in yellow, then clear after 1.5s
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                                viewModel.highlightSearchResult(selection)
-                            }
-                        }
-                    )
-                case .outline:
-                    STOutlineView(
-                        document: viewModel.document.pdfDocument,
-                        onPageSelected: { index in
-                            viewModel.viewerViewModel.goToPage(index)
-                        }
-                    )
-                case .settings:
-                    STSettingsView()
                 }
             }
         }
-        .navigationViewStyle(.stack)
+        .sheet(item: $viewModel.activeSheet) { sheet in
+            switch sheet {
+            case .thumbnails:
+                STThumbnailGridView(viewModel: viewModel.viewerViewModel)
+            case .search:
+                STSearchView(
+                    document: viewModel.document.pdfDocument,
+                    onResultSelected: { selection in
+                        if let page = selection.pages.first {
+                            let index = viewModel.document.pdfDocument.index(for: page)
+                            viewModel.viewerViewModel.goToPage(index)
+                        }
+                        // Highlight found text in yellow, then clear after 1.5s
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                            viewModel.highlightSearchResult(selection)
+                        }
+                    }
+                )
+            case .outline:
+                STOutlineView(
+                    document: viewModel.document.pdfDocument,
+                    onPageSelected: { index in
+                        viewModel.viewerViewModel.goToPage(index)
+                    }
+                )
+            case .settings:
+                STSettingsView()
+            }
+        }
     }
 }

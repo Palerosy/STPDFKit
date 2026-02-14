@@ -18,6 +18,7 @@ final class STPDFEditorViewModel: ObservableObject {
     var viewerViewModel: STPDFViewerViewModel
     let annotationManager: STAnnotationManager
     let serializer: STAnnotationSerializer
+    lazy var pageEditorViewModel = STPageEditorViewModel(document: document)
 
     @Published var viewMode: STViewMode = .viewer
     @Published var isAnnotationToolbarVisible = false
