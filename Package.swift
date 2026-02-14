@@ -11,7 +11,7 @@ let package = Package(
         .binaryTarget(
             name: "STPDFKit",
             url: "https://github.com/Palerosy/STPDFKit/releases/download/0.1.0/STPDFKit.xcframework.zip",
-            checksum: "7bdb6f04caff8ef7a7ab0bd24cce551bd2127b0a372020ab8830380df3cc3e72"
+            checksum: "e3a0afd488a8ec9cb615a753896d78e27936589132a1f3e9373818b89fe5f7d2"
         )
     ]
 )
