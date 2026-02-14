@@ -78,5 +78,24 @@
 /* Selection Menu */
 "stpdfkit.selection.paste" = "붙여넣기";
 
+/* Page Editor */
+"stpdfkit.page.newPage" = "새 페이지";
+"stpdfkit.page.remove" = "삭제";
+"stpdfkit.page.duplicate" = "복제";
+"stpdfkit.page.rotate" = "회전";
+"stpdfkit.page.selectAll" = "모두 선택";
+"stpdfkit.page.deselectAll" = "선택 해제";
+"stpdfkit.page.cut" = "잘라내기";
+"stpdfkit.page.copy" = "복사";
+"stpdfkit.page.paste" = "붙여넣기";
+"stpdfkit.page.numberOfPages" = "페이지 수";
+"stpdfkit.page.format" = "페이지 형식";
+"stpdfkit.page.color" = "페이지 색상";
+"stpdfkit.page.addAfter" = "페이지 뒤에 추가";
+"stpdfkit.page.beginning" = "처음";
+"stpdfkit.page.color.white" = "흰색";
+"stpdfkit.page.color.cream" = "크림색";
+"stpdfkit.page.color.gray" = "회색";
+
 /* License */
 "stpdfkit.unlicensed" = "STPDFKit — Unlicensed";

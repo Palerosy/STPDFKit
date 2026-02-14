@@ -87,6 +87,25 @@
 /* Selection Menu */
 "stpdfkit.selection.paste" = "Επικόλληση";
 
+/* Page Editor */
+"stpdfkit.page.newPage" = "Νέα Σελίδα";
+"stpdfkit.page.remove" = "Αφαίρεση";
+"stpdfkit.page.duplicate" = "Αντίγραφο";
+"stpdfkit.page.rotate" = "Περιστροφή";
+"stpdfkit.page.selectAll" = "Επιλογή Όλων";
+"stpdfkit.page.deselectAll" = "Αποεπιλογή Όλων";
+"stpdfkit.page.cut" = "Αποκοπή";
+"stpdfkit.page.copy" = "Αντιγραφή";
+"stpdfkit.page.paste" = "Επικόλληση";
+"stpdfkit.page.numberOfPages" = "Αριθμός Σελίδων";
+"stpdfkit.page.format" = "Μορφή Σελίδας";
+"stpdfkit.page.color" = "Χρώμα Σελίδας";
+"stpdfkit.page.addAfter" = "Προσθήκη μετά τη Σελίδα";
+"stpdfkit.page.beginning" = "Αρχή";
+"stpdfkit.page.color.white" = "Λευκό";
+"stpdfkit.page.color.cream" = "Κρεμ";
+"stpdfkit.page.color.gray" = "Γκρι";
+
 /* MARK: - License */
 
 "stpdfkit.unlicensed" = "STPDFKit — Unlicensed";

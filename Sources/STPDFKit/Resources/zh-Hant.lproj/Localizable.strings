@@ -78,5 +78,24 @@
 /* Selection Menu */
 "stpdfkit.selection.paste" = "貼上";
 
+/* Page Editor */
+"stpdfkit.page.newPage" = "新頁面";
+"stpdfkit.page.remove" = "移除";
+"stpdfkit.page.duplicate" = "複製頁面";
+"stpdfkit.page.rotate" = "旋轉";
+"stpdfkit.page.selectAll" = "全選";
+"stpdfkit.page.deselectAll" = "取消全選";
+"stpdfkit.page.cut" = "剪下";
+"stpdfkit.page.copy" = "複製";
+"stpdfkit.page.paste" = "貼上";
+"stpdfkit.page.numberOfPages" = "頁數";
+"stpdfkit.page.format" = "頁面格式";
+"stpdfkit.page.color" = "頁面顏色";
+"stpdfkit.page.addAfter" = "在頁面之後新增";
+"stpdfkit.page.beginning" = "開頭";
+"stpdfkit.page.color.white" = "白色";
+"stpdfkit.page.color.cream" = "米色";
+"stpdfkit.page.color.gray" = "灰色";
+
 /* License */
 "stpdfkit.unlicensed" = "STPDFKit — Unlicensed";

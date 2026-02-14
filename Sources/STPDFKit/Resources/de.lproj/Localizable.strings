@@ -87,6 +87,25 @@
 /* Selection Menu */
 "stpdfkit.selection.paste" = "Einfügen";
 
+/* Page Editor */
+"stpdfkit.page.newPage" = "Neue Seite";
+"stpdfkit.page.remove" = "Entfernen";
+"stpdfkit.page.duplicate" = "Duplizieren";
+"stpdfkit.page.rotate" = "Drehen";
+"stpdfkit.page.selectAll" = "Alle auswählen";
+"stpdfkit.page.deselectAll" = "Alle abwählen";
+"stpdfkit.page.cut" = "Ausschneiden";
+"stpdfkit.page.copy" = "Kopieren";
+"stpdfkit.page.paste" = "Einfügen";
+"stpdfkit.page.numberOfPages" = "Seitenanzahl";
+"stpdfkit.page.format" = "Seitenformat";
+"stpdfkit.page.color" = "Seitenfarbe";
+"stpdfkit.page.addAfter" = "Einfügen nach Seite";
+"stpdfkit.page.beginning" = "Anfang";
+"stpdfkit.page.color.white" = "Weiß";
+"stpdfkit.page.color.cream" = "Creme";
+"stpdfkit.page.color.gray" = "Grau";
+
 /* MARK: - License */
 
 "stpdfkit.unlicensed" = "STPDFKit — Unlicensed";

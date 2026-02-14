@@ -76,5 +76,24 @@
 /* Selection Menu */
 "stpdfkit.selection.paste" = "Вставить";
 
+/* Page Editor */
+"stpdfkit.page.newPage" = "Новая страница";
+"stpdfkit.page.remove" = "Удалить";
+"stpdfkit.page.duplicate" = "Дублировать";
+"stpdfkit.page.rotate" = "Повернуть";
+"stpdfkit.page.selectAll" = "Выбрать все";
+"stpdfkit.page.deselectAll" = "Снять выбор";
+"stpdfkit.page.cut" = "Вырезать";
+"stpdfkit.page.copy" = "Копировать";
+"stpdfkit.page.paste" = "Вставить";
+"stpdfkit.page.numberOfPages" = "Количество страниц";
+"stpdfkit.page.format" = "Формат страницы";
+"stpdfkit.page.color" = "Цвет страницы";
+"stpdfkit.page.addAfter" = "Добавить после страницы";
+"stpdfkit.page.beginning" = "Начало";
+"stpdfkit.page.color.white" = "Белый";
+"stpdfkit.page.color.cream" = "Кремовый";
+"stpdfkit.page.color.gray" = "Серый";
+
 /* License */
 "stpdfkit.unlicensed" = "STPDFKit — Unlicensed";

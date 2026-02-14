@@ -78,5 +78,24 @@
 /* Selection Menu */
 "stpdfkit.selection.paste" = "ペースト";
 
+/* Page Editor */
+"stpdfkit.page.newPage" = "新規ページ";
+"stpdfkit.page.remove" = "削除";
+"stpdfkit.page.duplicate" = "複製";
+"stpdfkit.page.rotate" = "回転";
+"stpdfkit.page.selectAll" = "すべて選択";
+"stpdfkit.page.deselectAll" = "選択解除";
+"stpdfkit.page.cut" = "カット";
+"stpdfkit.page.copy" = "コピー";
+"stpdfkit.page.paste" = "ペースト";
+"stpdfkit.page.numberOfPages" = "ページ数";
+"stpdfkit.page.format" = "ページ形式";
+"stpdfkit.page.color" = "ページ色";
+"stpdfkit.page.addAfter" = "ページの後に追加";
+"stpdfkit.page.beginning" = "先頭";
+"stpdfkit.page.color.white" = "白";
+"stpdfkit.page.color.cream" = "クリーム";
+"stpdfkit.page.color.gray" = "グレー";
+
 /* License */
 "stpdfkit.unlicensed" = "STPDFKit — Unlicensed";

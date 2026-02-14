@@ -76,5 +76,24 @@
 /* Selection Menu */
 "stpdfkit.selection.paste" = "Вставити";
 
+/* Page Editor */
+"stpdfkit.page.newPage" = "Нова сторінка";
+"stpdfkit.page.remove" = "Видалити";
+"stpdfkit.page.duplicate" = "Дублювати";
+"stpdfkit.page.rotate" = "Обернути";
+"stpdfkit.page.selectAll" = "Вибрати все";
+"stpdfkit.page.deselectAll" = "Зняти вибір";
+"stpdfkit.page.cut" = "Вирізати";
+"stpdfkit.page.copy" = "Копіювати";
+"stpdfkit.page.paste" = "Вставити";
+"stpdfkit.page.numberOfPages" = "Кількість сторінок";
+"stpdfkit.page.format" = "Формат сторінки";
+"stpdfkit.page.color" = "Колір сторінки";
+"stpdfkit.page.addAfter" = "Додати після сторінки";
+"stpdfkit.page.beginning" = "Початок";
+"stpdfkit.page.color.white" = "Білий";
+"stpdfkit.page.color.cream" = "Кремовий";
+"stpdfkit.page.color.gray" = "Сірий";
+
 /* License */
 "stpdfkit.unlicensed" = "STPDFKit — Unlicensed";

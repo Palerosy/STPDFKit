@@ -76,5 +76,24 @@
 /* Selection Menu */
 "stpdfkit.selection.paste" = "पेस्ट करें";
 
+/* Page Editor */
+"stpdfkit.page.newPage" = "नया पृष्ठ";
+"stpdfkit.page.remove" = "हटाएं";
+"stpdfkit.page.duplicate" = "प्रतिलिपि";
+"stpdfkit.page.rotate" = "घुमाएं";
+"stpdfkit.page.selectAll" = "सभी चुनें";
+"stpdfkit.page.deselectAll" = "सभी अचयनित करें";
+"stpdfkit.page.cut" = "काटें";
+"stpdfkit.page.copy" = "कॉपी";
+"stpdfkit.page.paste" = "चिपकाएं";
+"stpdfkit.page.numberOfPages" = "पृष्ठों की संख्या";
+"stpdfkit.page.format" = "पृष्ठ प्रारूप";
+"stpdfkit.page.color" = "पृष्ठ रंग";
+"stpdfkit.page.addAfter" = "पृष्ठ के बाद जोड़ें";
+"stpdfkit.page.beginning" = "शुरुआत";
+"stpdfkit.page.color.white" = "सफ़ेद";
+"stpdfkit.page.color.cream" = "क्रीम";
+"stpdfkit.page.color.gray" = "धूसर";
+
 /* License */
 "stpdfkit.unlicensed" = "STPDFKit — Unlicensed";
